@@ -1,0 +1,43 @@
+services:
+
+  db:
+    image: postgres:16
+    container_name: swipex_db
+
+    environment:
+      POSTGRES_DB: swipex
+      POSTGRES_USER: swipex_user
+      POSTGRES_PASSWORD: swipex_password
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  backend:
+    build: .
+    container_name: swipex_backend
+
+    command: python manage.py runserver 0.0.0.0:8000
+
+    volumes:
+      - .:/app
+
+    ports:
+      - "8000:8000"
+
+    environment:
+      DB_NAME: swipex
+      DB_USER: swipex_user
+      DB_PASSWORD: swipex_password
+      DB_HOST: db
+      DB_PORT: 5432
+
+    depends_on:
+      - db
+
+
+volumes:
+  postgres_data:

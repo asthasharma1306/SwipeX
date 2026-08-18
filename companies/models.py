@@ -13,7 +13,12 @@ class RecruiterProfile(models.Model):
 
 
 class Company(models.Model):
-    recruiter = models.OneToOneField(RecruiterProfile, on_delete=models.CASCADE)
+    recruiter = models.OneToOneField(
+    RecruiterProfile,
+    on_delete=models.CASCADE,
+    null=True,
+    blank=True
+)
     name = models.CharField(max_length=150)
     company_type = models.CharField(max_length=100)
     website = models.URLField(blank=True)
