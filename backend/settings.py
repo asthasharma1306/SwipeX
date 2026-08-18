@@ -26,11 +26,7 @@ SECRET_KEY = 'django-insecure-@30f3$i(rk+mif2!xrwv_*+&2j7&d0z9##+mo47+)1bq^r-3_4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [
-    "localhost",
-    "127.0.0.1",
-    ".onrender.com",
-]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -90,15 +86,14 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 
 
+import dj_database_url
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("DB_NAME", "swipeX"),
-        "USER": os.environ.get("DB_USER", "postgres"),
-        "PASSWORD": os.environ.get("DB_PASSWORD", "astha@123"),
-        "HOST": os.environ.get("DB_HOST", "localhost"),
-        "PORT": os.environ.get("DB_PORT", "5432"),
-    }
+    "default": dj_database_url.config(
+        default="postgresql://postgres:astha@123@localhost:5432/swipeX",
+        conn_max_age=600,
+        ssl_require=not DEBUG,
+    )
 }
 
 # Password validation
